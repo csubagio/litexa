@@ -46,8 +46,8 @@ pickSayString = (context, key, count) ->
     when count == 2
       # with two, we can only toggle anyway
       if history[0]?
-        value = 1 - history[0]
-      else
+        value = ( history[0] + 1 ) % 2
+      else 
         value = randomIndex(2)
       history[0] = value % 2
 
@@ -77,7 +77,7 @@ pickSayString = (context, key, count) ->
 
   sayData[key] = history
   context.db.write '__sayHistory', sayData
-  return value % count
+  return Math.abs(value) % count
 
 pickSayFragment = (context, key, options) ->
   index = pickSayString context, key, options.length
